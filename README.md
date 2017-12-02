@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/hadihabashi/go_user_manage.svg?branch=master)](https://travis-ci.org/hadihabashi/go_user_manage)
 [![GoDoc](https://godoc.org/github.com/hadihabashi/go_user_manage?status.svg)](http://godoc.org/github.com/hadihabashi/go_user_manage) 
+
 # go_user_manage
 Simple User Management in Go
 
