@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hadihabashi/go_user_manage.svg?branch=master)](https://travis-ci.org/hadihabashi/go_user_manage)
+[![GoDoc](https://godoc.org/github.com/hadihabashi/go_user_manage?status.svg)](http://godoc.org/github.com/hadihabashi/go_user_manage) 
 # go_user_manage
 Simple User Management in Go
 
@@ -5,16 +7,11 @@ some change on https://github.com/xyproto/permissions2   Thanks Xyproto
 Middleware for keeping track of users, login states and permissions.
 
 
-# Permissions [![Build Status](https://travis-ci.org/hadihabashi/go_user_manage.svg?branch=master)](https://travis-ci.org/hadihabashi/go_user_manage)
-[![GoDoc](https://godoc.org/github.com/hadihabashi/go_user_manage?status.svg)](http://godoc.org/github.com/hadihabashi/go_user_manage) 
-[![Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg?style=flat)](http://goreportcard.com/report/xyproto/permissions2)
-
-Middleware for keeping track of users, login states and permissions.
 
 Online API Documentation
 ------------------------
 
-[godoc.org](http://godoc.org/github.com/xyproto/permissions2)
+[godoc.org](http://godoc.org/github.com/hadihabashi/go_user_manage)
 
 
 Features and limitations
@@ -23,9 +20,6 @@ Features and limitations
 * Uses secure cookies and stores user information in a Redis database.
 * Suitable for running a local Redis server, registering/confirming users and managing public/user/admin pages.
 * Also supports connecting to remote Redis servers.
-* Does not support SQL databases. For MariaDB/MySQL support, look into [permissionsql](https://github.com/xyproto/permissionsql).
-* For Bolt database support (no database host needed, uses a file), look into [permissionbolt](https://github.com/xyproto/permissionbolt).
-* For PostgreSQL database support (using the HSTORE feature), look into [pstore](https://github.com/xyproto/pstore).
 * Supports registration and confirmation via generated confirmation codes.
 * Tries to keep things simple.
 * Only supports *public*, *user* and *admin* permissions out of the box, but offers functionality for implementing more fine grained permissions, if so desired.
@@ -52,7 +46,7 @@ import (
 	"log"
 
 	"github.com/urfave/negroni"
-	"github.com/xyproto/permissions2"
+	"github.com/hadihabashi/go_user_manage"
 )
 
 func main() {
@@ -60,7 +54,14 @@ func main() {
 	mux := http.NewServeMux()
 
 	// New permissions middleware
-	perm, err := permissions.New2()
+	perm, err := permissions.New(dbindex int, hostPort string,pass string)
+	//dbindex of redis database
+	//redis hostPort
+	//redis password 
+	//notice : if redis in localhost and defult port set hostport nil ""
+	//and if redis not set password set ""
+	//notice : if your redis not some database set 0 in dbindex for first database
+	
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -156,15 +157,23 @@ import (
 	"log"
 
 	"github.com/go-martini/martini"
-	"github.com/xyproto/permissions2"
+	"github.com/hadihabashi/go_user_manage"
 )
 
 func main() {
 	m := martini.Classic()
 
 	// New permissions middleware
-	perm, err := permissions.New2()
+	perm, err := permissions.New(dbindex int, hostPort string,pass string)
+	//dbindex of redis database
+	//redis hostPort
+	//redis password 
+	//notice : if redis in localhost and defult port set hostport nil ""
+	//and if redis not set password set ""
+	//notice : if your redis not some database set 0 in dbindex for first database
 	if err != nil {
+	
+	
 		log.Fatalln(err)
 	}
 
@@ -264,14 +273,22 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xyproto/permissions2"
+	"github.com/hadihabashi/go_user_manage"
 )
 
 func main() {
 	g := gin.New()
 
 	// New permissions middleware
-	perm, err := permissions.New2()
+	perm, err := permissions.New(dbindex int, hostPort string,pass string)
+	//dbindex of redis database
+	//redis hostPort
+	//redis password 
+	//notice : if redis in localhost and defult port set hostport nil ""
+	//and if redis not set password set ""
+	//notice : if your redis not some database set 0 in dbindex for first database
+	
+	
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -379,13 +396,21 @@ import (
 	"strings"
 	"log"
 
-	"github.com/xyproto/permissions2"
+	"github.com/hadihabashi/go_user_manage"
 	"github.com/zenazn/goji"
 )
 
 func main() {
 	// New permissions middleware
-	perm, err := permissions.New2()
+	perm, err := permissions.New(dbindex int, hostPort string,pass string)
+	//dbindex of redis database
+	//redis hostPort
+	//redis password 
+	//notice : if redis in localhost and defult port set hostport nil ""
+	//and if redis not set password set ""
+	//notice : if your redis not some database set 0 in dbindex for first database
+	
+	
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -492,7 +517,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/xyproto/permissions2"
+	"github.com/hadihabashi/go_user_manage"
 	"github.com/xyproto/pinterface"
 )
 
@@ -525,7 +550,15 @@ func main() {
 	mux := http.NewServeMux()
 
 	// New permissions middleware
-	perm, err := permissions.New2()
+	perm, err := permissions.New(dbindex int, hostPort string,pass string)
+	//dbindex of redis database
+	//redis hostPort
+	//redis password 
+	//notice : if redis in localhost and defult port set hostport nil ""
+	//and if redis not set password set ""
+	//notice : if your redis not some database set 0 in dbindex for first database
+	
+	
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -676,5 +709,6 @@ General information
 * Version: 2.5
 * License: MIT
 * Alexander F Rødseth &lt;xyproto@archlinux.org&gt;
+* And I ( :) hadihabashi ) change somethings and add some functions.
 
 
