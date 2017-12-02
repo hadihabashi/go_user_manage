@@ -2,11 +2,15 @@ package go_user_manage
 import (
 	"testing"
 	"time"
+
 )
 
 func TestPerm(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
 
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
 	userstate.AddUser("bob", "hunter1", "bob@zombo.com")
 
 	if !userstate.HasUser("bob") {
@@ -41,27 +45,9 @@ func TestPerm(t *testing.T) {
 }
 
 func TestPasswordBasic(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
 
-	// Assert that the default password algorithm is "bcrypt+"
-	if userstate.PasswordAlgo() != "bcrypt+" {
-		t.Error("Error, bcrypt+ should be the default password algorithm")
-	}
-
-	// Set password algorithm
-	userstate.SetPasswordAlgo("sha256")
-
-	// Assert that the algorithm is now sha256
-	if userstate.PasswordAlgo() != "sha256" {
-		t.Error("Error, setting password algorithm failed")
-	}
-
-}
-
-func TestPasswordBasic2(t *testing.T) {
-	// Test the other method for connecting to Redis
-	userstate, err := NewUserStateSimple2()
-	if err != nil {
+	if err!= nil {
 		t.Error("Error, " + err.Error())
 	}
 
@@ -80,9 +66,38 @@ func TestPasswordBasic2(t *testing.T) {
 
 }
 
+func TestPasswordBasic2(t *testing.T) {
+	// Test the other method for connecting to Redis
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
+
+
+	// Assert that the default password algorithm is "bcrypt+"
+	if userstate.PasswordAlgo() != "bcrypt+" {
+		t.Error("Error, bcrypt+ should be the default password algorithm")
+	}
+
+	// Set password algorithm
+	userstate.SetPasswordAlgo("sha256")
+
+	// Assert that the algorithm is now sha256
+	if userstate.PasswordAlgo() != "sha256" {
+		t.Error("Error, setting password algorithm failed")
+	}
+
+}
+
 // Check if the functionality for backwards compatible hashing works
 func TestPasswordBackward(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
+
 	userstate.SetPasswordAlgo("sha256")
 	userstate.AddUser("bob", "hunter1", "bob@zombo.com")
 	if !userstate.HasUser("bob") {
@@ -108,7 +123,12 @@ func TestPasswordBackward(t *testing.T) {
 
 // Check if the functionality for backwards compatible hashing works
 func TestPasswordNotBackward(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
+
 	userstate.SetPasswordAlgo("bcrypt")
 	userstate.AddUser("bob", "hunter1", "bob@zombo.com")
 	if !userstate.HasUser("bob") {
@@ -128,7 +148,12 @@ func TestPasswordNotBackward(t *testing.T) {
 }
 
 func TestPasswordAlgoMatching(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
+
 	// generate two different password using the same credentials but different algos
 	userstate.SetPasswordAlgo("sha256")
 	sha256Hash := userstate.HashPassword("testuser@example.com", "textpassword")
@@ -142,7 +167,11 @@ func TestPasswordAlgoMatching(t *testing.T) {
 }
 
 func TestUserStateKeeper(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
 
 	// Check that the userstate qualifies for the IUserState interface
 	var _ IUserState = userstate
@@ -150,7 +179,11 @@ func TestUserStateKeeper(t *testing.T) {
 
 func TestHostPassword(t *testing.T) {
 	//userstate := NewUserStateWithPassword("localhost", "foobared")
-	userstate := NewUserStateWithPassword("localhost", "")
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
 
 	userstate.AddUser("bob", "hunter1", "bob@zombo.com")
 	if !userstate.HasUser("bob") {
@@ -165,7 +198,11 @@ func TestHostPassword(t *testing.T) {
 }
 
 func TestChangePassword(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
 
 	userstate.AddUser("bob", "hunter1", "bob@zombo.com")
 	if !userstate.HasUser("bob") {
@@ -212,7 +249,11 @@ func TestChangePassword(t *testing.T) {
 }
 
 func TestTokens(t *testing.T) {
-	userstate := NewUserStateSimple()
+	userstate,err := NewUserState(0,true,"","")
+
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
 
 	// Add bob
 	userstate.AddUser("bob", "hunter1", "bob@zombo.com")

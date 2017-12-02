@@ -5,6 +5,10 @@ import (
 
 func TestInterface(t *testing.T) {
 	// Check that the value qualifies for the interface
-	var _ IPermissions = New()
+	perm,err := New(0,"","")
+	if err!= nil {
+		t.Error("Error, " + err.Error())
+	}
+	var _ IPermissions = perm
 }
 
