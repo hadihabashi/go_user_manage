@@ -94,9 +94,9 @@ func NewUserState(dbindex int, randomseed bool, redisHostPort string , password 
 
 	// Default password hashing algorithm is "bcrypt+", which is the same as
 	// "bcrypt", but with backwards compatibility for checking sha256 hashes.
-	if (password != "") {
+	state.passwordAlgorithm = "bcrypt+" // "bcrypt+", "bcrypt" or "sha256"
 
-		state.passwordAlgorithm = "bcrypt+" // "bcrypt+", "bcrypt" or "sha256"
+	if (password != "") {
 
 		if pool.Ping() != nil {
 			defer pool.Close()
