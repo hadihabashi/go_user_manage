@@ -647,6 +647,18 @@ func main() {
 }
 ~~~
 
+notice : if you want set confiramtionCode :
+	1 - use AddUser() to add user uncheck
+	2 - use GenerateUniqueConfirmationCode() 
+	3 - use AddUnconfirmed  to add confirmationCode to username hash map
+you can check confirmation code with this function and set confirmed user 
+ConfirmUserByConfirmationCode()
+FindUserByConfirmationCode()
+and 
+RemoveUnconfirmed() for remove user as unconfirmaed list
+&  MarkConfirmed() user .
+
+
 
 Default permissions
 -------------------
