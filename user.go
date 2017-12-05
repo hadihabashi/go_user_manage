@@ -630,3 +630,8 @@ func (state *UserState) Creator() sredis.ICreator {
 	return sredis.NewCreator(state.pool, state.dbindex)
 }
 
+func (state *UserState) AddNewFieldToUsernameHashMap (username, key string , value string) {
+	state.users.Set(username, key, value)
+}
+
+
