@@ -721,7 +721,7 @@ General information
 
 * Version: 2.5
 * License: MIT
-* Alexander F Rødseth &lt;xyproto@archlinux.org&gt;
-* And I ( :) hadihabashi ) change somethings and add some functions.
+* Alexander F Rødseth .
+* And I ( :) hadihabashi ) change somethings and add some functions. 
 
 
