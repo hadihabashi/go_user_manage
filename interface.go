@@ -33,8 +33,8 @@ type IUserState interface {
 	SetLoggedIn(username string)
 	SetLoggedOut(username string)
 	Login(w http.ResponseWriter, username string) error
-	ClearCookie(w http.ResponseWriter)
-	Logout(username string)
+	ClearCookie(w http.ResponseWriter , username string)
+	Logout(w http.ResponseWriter, username string)
 	Username(req *http.Request) string
 	CookieTimeout(username string) int64
 	SetCookieTimeout(cookieTime int64)
