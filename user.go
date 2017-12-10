@@ -305,11 +305,19 @@ func (state *UserState) Users() sredis.IHashMap {
 }
 
 // Add a user that is registered but not confirmed.
-func (state *UserState) AddUnconfirmed(username, confirmationCode string) {
-	state.unconfirmed.Add(username)
-	state.users.Set(username, "confirmationCode", confirmationCode)
+func (state *UserState) AddUnconfirmed(username, confirmationCode string) error {
+	err1 := state.unconfirmed.Add(username)
+	if (err1 != nil) {
+		return err1
+	} else {
+		err2 := state.users.Set(username, "confirmationCode", confirmationCode)
+		if (err2 != nil) {
+			return err2
+		}else {
+			return nil
+		}
+	}
 }
-
 // Remove a user that is registered but not confirmed.
 func (state *UserState) RemoveUnconfirmed(username string) {
 	state.unconfirmed.Del(username)
@@ -364,6 +372,7 @@ func (state *UserState) SetPassword(username, password string) {
 func (state *UserState) addUserUnchecked(username, passwordHash, email string) error {
 	// Add the user
 	err := state.usernames.Add(username)
+
 	if (err != nil) {
 		return err
 	}else {

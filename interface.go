@@ -23,7 +23,7 @@ type IUserState interface {
 	PasswordHash(username string) (string, error)
 	AllUnconfirmedUsernames() ([]string, error)
 	ConfirmationCode(username string) (string, error)
-	AddUnconfirmed(username, confirmationCode string)
+	AddUnconfirmed(username, confirmationCode string) error
 	RemoveUnconfirmed(username string)
 	MarkConfirmed(username string)
 	RemoveUser(username string)
