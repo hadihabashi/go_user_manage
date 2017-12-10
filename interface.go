@@ -29,7 +29,8 @@ type IUserState interface {
 	RemoveUser(username string)
 	SetAdminStatus(username string)
 	RemoveAdminStatus(username string)
-	AddUser(username, password, email string)
+	addUserUnchecked(username, passwordHash, email string) error
+	AddUser(username, password, email string) error
 	SetLoggedIn(username string)
 	SetLoggedOut(username string)
 	Login(w http.ResponseWriter, username string) error

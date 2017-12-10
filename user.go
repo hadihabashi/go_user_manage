@@ -361,26 +361,37 @@ func (state *UserState) SetPassword(username, password string) {
 }
 
 // Creates a user from the username and password hash, does not check for rights.
-func (state *UserState) addUserUnchecked(username, passwordHash, email string) {
+func (state *UserState) addUserUnchecked(username, passwordHash, email string) error {
 	// Add the user
-	state.usernames.Add(username)
-
-	// Add password and email
-	state.users.Set(username, "password", passwordHash)
-	state.users.Set(username, "email", email)
-
-	// Additional fields
-	additionalfields := []string{"loggedin", "confirmed", "admin"}
-	for _, fieldname := range additionalfields {
-		state.users.Set(username, fieldname, "false")
+	err := state.usernames.Add(username)
+	if (err != nil) {
+		return err
+	}else {
+		// Add password and email
+		err1 := state.users.Set(username, "password", passwordHash)
+		if (err1 != nil) {
+			return err1
+		}else {
+			err2 := state.users.Set(username, "email", email)
+			if (err2 != nil) {
+				return err2
+			}else {
+				// Additional fields
+				additionalfields := []string{"loggedin", "confirmed", "admin"}
+				for _, fieldname := range additionalfields {
+					state.users.Set(username, fieldname, "false")
+				}
+				return nil
+			}
+		}
 	}
 }
 
 // Creates a user and hashes the password, does not check for rights.
 // The given data must be valid.
-func (state *UserState) AddUser(username, password, email string) {
+func (state *UserState) AddUser(username, password, email string) error{
 	passwordHash := state.HashPassword(username, password)
-	state.addUserUnchecked(username, passwordHash, email)
+	return state.addUserUnchecked(username, passwordHash, email)
 }
 
 // Mark the user as logged in. Use the Login function instead, unless cookies are not involved.
@@ -465,7 +476,7 @@ func (state *UserState) SetPasswordAlgo(algorithm string) error {
 }
 
 // Hash the password (takes a username as well, it can be used for salting).
-func (state *UserState) HashPassword(username, password string) string {
+func (state *UserState) HashPassword(username string, password string) string {
 	switch state.passwordAlgorithm {
 	case "sha256":
 		return string(hashSha256(state.cookieSecret, username, password))
