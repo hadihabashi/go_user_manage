@@ -409,8 +409,13 @@ func (state *UserState) SetLoggedIn(username string) {
 }
 
 // Mark the user as logged out.
-func (state *UserState) SetLoggedOut(username string) {
-	state.users.Set(username, "loggedin", "false")
+func (state *UserState) SetLoggedOut(username string) error{
+	err := state.users.Set(username, "loggedin", "false")
+	if err != nil {
+		return err
+	}else{
+		return nil
+	}
 }
 
 // Convenience function for logging a user in and storing the username in a cookie.
@@ -427,9 +432,14 @@ func (state *UserState) ClearCookie(w http.ResponseWriter , username string) {
 }
 
 // Convenience function for logging a user out.
-func (state *UserState) Logout(w http.ResponseWriter,username string) {
-	state.SetLoggedOut(username)
+func (state *UserState) Logout(w http.ResponseWriter,username string) error{
+	err := state.SetLoggedOut(username)
 	state.ClearCookie(w,username)
+	if err != nil {
+		return err
+	}else{
+		return nil
+	}
 }
 
 // Convenience function that will return a username (from the browser cookie) or an empty string.

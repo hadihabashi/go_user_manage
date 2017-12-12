@@ -32,10 +32,10 @@ type IUserState interface {
 	addUserUnchecked(username, passwordHash, email string) error
 	AddUser(username, password, email string) error
 	SetLoggedIn(username string)
-	SetLoggedOut(username string)
+	SetLoggedOut(username string) error
 	Login(w http.ResponseWriter, username string) error
 	ClearCookie(w http.ResponseWriter , username string)
-	Logout(w http.ResponseWriter, username string)
+	Logout(w http.ResponseWriter, username string) error
 	Username(req *http.Request) string
 	CookieTimeout(username string) int64
 	SetCookieTimeout(cookieTime int64)
